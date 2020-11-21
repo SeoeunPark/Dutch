@@ -3,8 +3,9 @@ import tkinter.ttk
 import tkinter.font
 import tkinter.messagebox
 from tkinter import *
-import receipt
 
+import main
+import receipt
 
 class Menuinsert:
     def __init__(self, menu):
@@ -25,7 +26,7 @@ class Menuinsert:
         self.inputLocation.place(x=100, y=100)
         #뒤로 가기 버튼
         self.backButton = Button(self.menu, width=4, text='⇦', repeatdelay=20, bg='#ff7878', font=fontq,
-                                 fg="white")  # command=self.to_receipt,
+                                 fg="white",command=self.to_main)  # command=self.to_receipt,
         self.backButton.place(x=20, y=25)
         #도움말 버튼
         self.infoButton = Button(self.menu, width=5, text='도움말', repeatdelay=20, bg='#ff7878', font=fontq,
@@ -125,6 +126,9 @@ class Menuinsert:
 
     def to_receipt(self):
        Move= receipt.Receipt(self.menu)
+
+    def to_main(self):
+       Move= main.Main(self.menu)
 
     def play(self):
         self.menu.mainloop()

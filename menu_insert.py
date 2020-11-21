@@ -26,12 +26,14 @@ class Menuinsert:
         self.inputLocation = Entry(self.menu, width=50, font=font, relief="groove")
         self.inputLocation.place(x=10, y=75)
 
-        self.saveButton = Button(self.menu, width=30, text='더치페이', font=font, command=self.to_receipt,  repeatdelay=20,bg='white', fg="red")
+        self.saveButton = Button(self.menu, width=30, text='더치페이', font=font,repeatdelay=20,bg='white', fg="red")#command=self.to_receipt,
         self.saveButton.place(x=300, y=650)
 
 
-    def to_receipt(self):
-        Move= receipt.Receipt(self.menu)
+
+
+    # def to_receipt(self):
+    #     Move= receipt.Receipt(self.menu)
     def play(self):
         self.menu.mainloop()
 

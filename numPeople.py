@@ -32,6 +32,9 @@ class NumPeople:
 
         #인원수에 따라 대사 바뀜
         self.NextfontStyle = tkFont.Font(family="고도B", size=30, weight="bold", slant="italic")
+        self.n = int(self.num.get())
+        self.num.set(self.n)
+        self.n=2
         self.nextPageButton = tkinter.Button(self.numPeople, text="묻고 더블로 가!⇨", font=self.NextfontStyle,
                                             command=self.moveToMenu, bg="#FF7878", bd="0", highlightthickness="0")
         self.nextPageButton.place(x=180, y=555)

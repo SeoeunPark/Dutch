@@ -38,28 +38,28 @@ class NumPeople:
 
     #menu_insert으로 넘어가기
     def moveToMenu(self):
-        Move = menu_insert.Menuinsert(self.numPeople)
+        Move = menu_insert.Menuinsert(self.numPeople,self.n)
 
     #+버튼
     def increase_num(self):
         self.NextfontStyle = tkFont.Font(family="고도B", size=30, weight="bold", slant="italic")
-        n = int(self.num.get())
-        if(2<= n <= 5):
-            n += 1
-            self.num.set(n)
-        if(n==2):
+        self.n = int(self.num.get())
+        if(2<= self.n <= 5):
+            self.n += 1
+            self.num.set(self.n)
+        if(self.n==2):
             self.nextPageButton['text'] = "묻고 더블로 가!⇨"
             self.nextPageButton.place(x=180, y=555)
-        elif(n==3):
+        elif(self.n==3):
             self.nextPageButton['text'] = "따따블로 가!⇨"
             self.nextPageButton.place(x=210, y=555)
-        elif(n==4):
+        elif(self.n==4):
             self.nextPageButton['text'] = "사딸라!⇨"
             self.nextPageButton.place(x=250, y=555)
-        elif(n==5):
+        elif(self.n==5):
             self.nextPageButton['text'] = "오딸라!⇨"
             self.nextPageButton.place(x=250, y=555)
-        elif(n==6):
+        elif(self.n==6):
             self.nextPageButton['text'] = "육따블로 가!⇨"
             self.nextPageButton.place(x=210, y=555)
     # -버튼

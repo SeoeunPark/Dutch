@@ -4,10 +4,8 @@ import tkinter.font
 import tkinter.messagebox
 from tkinter import *
 
-import main
 import receipt
 import numPeople
-
 
 class Menuinsert:
     def __init__(self,menu,n):

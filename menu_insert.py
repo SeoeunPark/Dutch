@@ -6,6 +6,7 @@ from tkinter import *
 
 import main
 import receipt
+import numPeople
 
 
 class Menuinsert:
@@ -28,7 +29,7 @@ class Menuinsert:
         self.inputLocation.place(x=100, y=100)
         # 뒤로 가기 버튼
         self.backButton = Button(self.menu, width=4, text='⇦', repeatdelay=20, bg='#ff7878', font=fontm,
-                                 fg="white", command=self.to_main)  # command=self.to_receipt,
+                                 fg="white", command=self.moveTonumPeople)  # command=self.to_receipt,
         self.backButton.place(x=20, y=25)
         # 도움말 버튼
         self.infoButton = Button(self.menu, width=5, text='도움말', repeatdelay=20, bg='#ff7878', font=fontm,
@@ -185,6 +186,8 @@ class Menuinsert:
         # [위치,메뉴,[1],[2],[3],[4],[5],[6],group,단위]
             Move = receipt.Receipt(self.menu, inputm)
 
+    def moveTonumPeople(self):
+        Move = numPeople.NumPeople(self.menu)
 
     def to_main(self):
         Move = main.Main(self.menu)

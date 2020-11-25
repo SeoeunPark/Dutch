@@ -10,9 +10,8 @@ import numPeople
 
 
 class Menuinsert:
-    def __init__(self, menu):
+    def __init__(self):
         self.menu = menu
-        self.num = 2
 
         self.menuBack = tkinter.PhotoImage(file="image/white.png")
         self.menuBackL = tkinter.Label(image=self.menuBack)

@@ -36,7 +36,7 @@ class NumPeople:
                                             command=self.moveToMenu, bg="#FF7878", bd="0", highlightthickness="0")
         self.nextPageButton.place(x=180, y=555)
 
-    #메인화면으로 넘어가기
+    #menu_insert으로 넘어가기
     def moveToMenu(self):
         Move = menu_insert.Menuinsert(self.numPeople)
 

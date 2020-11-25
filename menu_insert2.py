@@ -11,7 +11,6 @@ import receipt
 class Menuinsert:
     def __init__(self, menu):
         self.menu = menu
-        self.num = 2
 
         self.menuBack = tkinter.PhotoImage(file="image/white.png")
         self.menuBackL = tkinter.Label(image=self.menuBack)
@@ -48,47 +47,27 @@ class Menuinsert:
         # 사람1
         self.person1name = Entry(self.menu, width=20, font=fonts, relief="groove", bg='white', fg='black',
                                  highlightthickness=1, highlightbackground="#8294cd")
+        self.person1name.place(x=100, y=250)
         # 사람2
         self.person2name = Entry(self.menu, width=20, font=fonts, relief="groove", bg='white', fg='black',
                                  highlightthickness=1, highlightbackground="#8294cd")
+        self.person2name.place(x=100, y=280)
         # 사람3
         self.person3name = Entry(self.menu, width=20, font=fonts, relief="groove", bg='white', fg='black',
                                  highlightthickness=1, highlightbackground="#8294cd")
+        self.person3name.place(x=100, y=310)
         # 사람4
         self.person4name = Entry(self.menu, width=20, font=fonts, relief="groove", bg='white', fg='black',
                                  highlightthickness=1, highlightbackground="#8294cd")
+        self.person4name.place(x=100, y=340)
         # 사람5
         self.person5name = Entry(self.menu, width=20, font=fonts, relief="groove", bg='white', fg='black',
                                  highlightthickness=1, highlightbackground="#8294cd")
+        self.person5name.place(x=100, y=370)
         # 사람6
         self.person6name = Entry(self.menu, width=20, font=fonts, relief="groove", bg='white', fg='black',
                                  highlightthickness=1, highlightbackground="#8294cd")
-        # 사람 수 만큼 칸 보여주기
-        if (self.num == 2):
-            self.person1name.place(x=100, y=250)
-            self.person2name.place(x=100, y=280)
-        elif (self.num == 3):
-            self.person1name.place(x=100, y=250)
-            self.person2name.place(x=100, y=280)
-            self.person3name.place(x=100, y=310)
-        elif (self.num == 4):
-            self.person1name.place(x=100, y=250)
-            self.person2name.place(x=100, y=280)
-            self.person3name.place(x=100, y=310)
-            self.person4name.place(x=100, y=340)
-        elif (self.num == 5):
-            self.person1name.place(x=100, y=250)
-            self.person2name.place(x=100, y=280)
-            self.person3name.place(x=100, y=310)
-            self.person4name.place(x=100, y=340)
-            self.person5name.place(x=100, y=370)
-        elif (self.num == 6):
-            self.person1name.place(x=100, y=250)
-            self.person2name.place(x=100, y=280)
-            self.person3name.place(x=100, y=310)
-            self.person4name.place(x=100, y=340)
-            self.person5name.place(x=100, y=370)
-            self.person6name.place(x=100, y=400)
+        self.person6name.place(x=100, y=400)
 
         # 메뉴 가격
         self.priceText = Label(self.menu, text='메뉴 가격', width=10, bg="white", font=fontm, fg='#ff7878')
@@ -96,21 +75,28 @@ class Menuinsert:
         # 메뉴1
         self.person1menu = Entry(self.menu, width=50, font=fonts, relief="groove", bg='white', fg='black',
                                  highlightthickness=1, highlightbackground="#8294cd")
+        self.person1menu.place(x=330, y=250)
         # 메뉴2
         self.person2menu = Entry(self.menu, width=50, font=fonts, relief="groove", bg='white', fg='black',
                                  highlightthickness=1, highlightbackground="#8294cd")
+        self.person2menu.place(x=330, y=280)
         # 메뉴3
         self.person3menu = Entry(self.menu, width=50, font=fonts, relief="groove", bg='white', fg='black',
                                  highlightthickness=1, highlightbackground="#8294cd")
+        self.person3menu.place(x=330, y=310)
         # 메뉴4
         self.person4menu = Entry(self.menu, width=50, font=fonts, relief="groove", bg='white', fg='black',
                                  highlightthickness=1, highlightbackground="#8294cd")
+        self.person4menu.place(x=330, y=340)
         # 메뉴5
         self.person5menu = Entry(self.menu, width=50, font=fonts, relief="groove", bg='white', fg='black',
                                  highlightthickness=1, highlightbackground="#8294cd")
+        self.person5menu.place(x=330, y=370)
         # 메뉴6
         self.person6menu = Entry(self.menu, width=50, font=fonts, relief="groove", bg='white', fg='black',
                                  highlightthickness=1, highlightbackground="#8294cd")
+        self.person6menu.place(x=330, y=400)
+
         # 단체메뉴
         self.groupmenuText = Label(self.menu, text='단체메뉴 가격', width=10, bg="white", font=fontm, fg='#ff7878')
         self.groupmenuText.place(x=100, y=450)
@@ -118,32 +104,6 @@ class Menuinsert:
         self.groupmenu = Entry(self.menu, width=55, font=fonts, relief="groove", bg='white', fg='black',
                                highlightthickness=1, highlightbackground="#8294cd")
         self.groupmenu.place(x=100, y=500)
-
-        if (self.num == 2):
-            self.person1menu.place(x=330, y=250)
-            self.person2menu.place(x=330, y=280)
-        elif (self.num == 3):
-            self.person1menu.place(x=330, y=250)
-            self.person2menu.place(x=330, y=280)
-            self.person3menu.place(x=330, y=310)
-        elif (self.num == 4):
-            self.person1menu.place(x=330, y=250)
-            self.person2menu.place(x=330, y=280)
-            self.person3menu.place(x=330, y=310)
-            self.person4menu.place(x=330, y=340)
-        elif (self.num == 5):
-            self.person1menu.place(x=330, y=250)
-            self.person2menu.place(x=330, y=280)
-            self.person3menu.place(x=330, y=310)
-            self.person4menu.place(x=330, y=340)
-            self.person5menu.place(x=330, y=370)
-        elif (self.num == 6):
-            self.person1menu.place(x=330, y=250)
-            self.person2menu.place(x=330, y=280)
-            self.person3menu.place(x=330, y=310)
-            self.person4menu.place(x=330, y=340)
-            self.person5menu.place(x=330, y=370)
-            self.person6menu.place(x=330, y=400)
 
         # 반올림
         self.groupText = Label(self.menu, text='반올림 단위 ', width=10, bg="white", font=fontm, fg='#ff7878')
@@ -173,18 +133,16 @@ class Menuinsert:
         #     #self,inputLocation,inputMenu,person1name,person2name,person3name,person4name,
         # person5name,person6name,person1menu,person2menu,person3menu,person4menu,person5menu,
         # person6menu,groupmenu,updown
-
-            inputm = [self.inputLocation.get(), self.inputMenu.get(),
-                      [self.person1name.get(), self.person1menu.get()],
-                      [self.person2name.get(), self.person2menu.get()],
-                      [self.person3name.get(), self.person3menu.get()],
-                      [self.person4name.get(), self.person4menu.get()],
-                      [self.person5name.get(), self.person5menu.get()],
-                      [self.person6name.get(), self.person6menu.get()],
-                      self.groupmenu.get(), self.RadioVariety_1.get()]
+        inputm = [self.inputLocation.get(), self.inputMenu.get(),
+                  [self.person1name.get(), self.person1menu.get()],
+                  [self.person2name.get(), self.person2menu.get()],
+                  [self.person3name.get(), self.person3menu.get()],
+                  [self.person4name.get(), self.person4menu.get()],
+                  [self.person5name.get(), self.person5menu.get()],
+                  [self.person6name.get(), self.person6menu.get()],
+                  self.groupmenu.get(), self.RadioVariety_1.get()]
         # [위치,메뉴,[1],[2],[3],[4],[5],[6],group,단위]
-            Move = receipt.Receipt(self.menu, inputm)
-
+        Move = receipt.Receipt(self.menu, inputm)
 
     def to_main(self):
         Move = main.Main(self.menu)
@@ -194,9 +152,11 @@ class Menuinsert:
 
     def Msgbox(self):
         tkinter.messagebox.showinfo("도움말", "1.이름 밑 칸에는 이름을 입력해주세요."
-                                           "\n2.가격을 입력하실 때에는 첫번째칸부터 '/'로 가격을 나누어서 꼭 모두 입력해주세요. "
+                                           "\n2.가격을 입력하실 때에는 첫번째칸부터 '/'로 가격을 나누어서 입력해주세요. "
                                            "\n3.단체메뉴 가격도 '/'로 가격을 나누어서 입력해주세요."
                                            "\n4.입력을 끝냈다면 GO! 버튼을 눌러주세요.")
+
+
 if __name__ == '__main__':
     menu = tkinter.Tk()
     menu.title("더치 페이")

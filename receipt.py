@@ -20,10 +20,18 @@ class Receipt:
         #           6[self.personname[5 - 1].get(), self.personmenu[5 - 1].get()],
         #          7[self.personname[6 - 1].get(), self.personmenu[6 - 1].get()],
         #           8,9self.groupmenu.get(), self.RadioVariety_1.get()]
+
+        self.rpertotal =0
         self.receipt = receipt
         self.rpersonnum = personnum
         self.rpersonname = [0, 0, 0, 0, 0, 0]
         self.rpersonmenu = [0, 0, 0, 0, 0, 0]
+        self.per_sum = [0, 0, 0, 0, 0, 0]
+        self.per_tolsum = [0, 0, 0, 0, 0, 0]  # 계산
+        self.rper_tolsum = [0, 0, 0, 0, 0, 0]  # 텍스트
+        self.round_price = 0 #반올림 한 총합
+        self.ori_price = 0 #반올림 전 총합
+
 
         # menu_insert에서 배열 받아옴
         self.person = inputmenu
@@ -44,7 +52,7 @@ class Receipt:
         self.receiptBackL.place(x=-2, y=-2)
         # 잘 들어가는 지 확인
         self.locationText = Label(self.receipt, text=self.person, fg='#ff7878', font=fonts, bg='white')
-        self.locationText.place(x=400, y=10)
+        self.locationText.place(x=2, y=10)
         # 뒤로가기 버튼
         self.backButton = Button(self.receipt, width=4, text='⇦', repeatdelay=20, bg='#ff7878', font=fontm,
                                  fg="white", command=self.back)  # command=self.to_receipt,
@@ -75,13 +83,13 @@ class Receipt:
         # 사람6이름
         self.rpersonname[6 - 1] = Label(self.receipt, text=self.person[6 + 1][0], fg='#db4455', font=fontm, bg='white')
 
-        # 사람 수 만큼 칸 보여주기
+        # 사람 이름 위치 지정
         for i in range(0, self.rpersonnum):
             self.rpersonname[i].place(x=50, y=160 + 40 * (i + 1))
 
         # 1. /로 나누기 2. 문자로 된 리스트 값 정수로 바꾸기 3. 합계 구하기
         # person[1+1][0]
-        self.per_sum = [0, 0, 0, 0, 0, 0]
+
         for i in range(0, self.rpersonnum):  # range 명수까지 입력
             p_split = self.person[i + 2][1].split('/')
             p_trans = map(int, p_split)
@@ -89,8 +97,8 @@ class Receipt:
 
             # 그룹메뉴
             g_split = self.mgroupmenu.split('/')
-            g_trans = map(int, g_split)
-            self.rgroupmenu = int(sum(g_trans) / self.rpersonnum)
+            self.g_trans = sum(map(int, g_split))
+            self.rgroupmenu = int(self.g_trans / self.rpersonnum)
 
         # 그룹메뉴 반올림
         if self.person[9] == 1:
@@ -131,6 +139,56 @@ class Receipt:
         # 메뉴 위치 지정
         for i in range(0, self.rpersonnum):
             self.rpersonmenu[i].place(x=275, y=160 + 40 * (i + 1))
+
+        # 개인 토탈금액 계산
+        for i in range(0, self.rpersonnum):
+            self.per_tolsum[i] += self.per_sum[i]
+            self.per_tolsum[i] += self.rgroupmenup
+            self.rpertotal += self.per_tolsum[i]
+
+        self.rper_tolsum[1 - 1] = Label(self.receipt, text=self.per_tolsum[1 - 1], fg='#db4455', font=fontm,
+                                        bg='white')
+        self.rper_tolsum[2 - 1] = Label(self.receipt, text=self.per_tolsum[2 - 1], fg='#db4455', font=fontm,
+                                        bg='white')
+        self.rper_tolsum[3 - 1] = Label(self.receipt, text=self.per_tolsum[3 - 1], fg='#db4455', font=fontm,
+                                        bg='white')
+        self.rper_tolsum[4 - 1] = Label(self.receipt, text=self.per_tolsum[4 - 1], fg='#db4455', font=fontm,
+                                        bg='white')
+        self.rper_tolsum[5 - 1] = Label(self.receipt, text=self.per_tolsum[5 - 1], fg='#db4455', font=fontm,
+                                        bg='white')
+        self.rper_tolsum[6 - 1] = Label(self.receipt, text=self.per_tolsum[6 - 1], fg='#db4455', font=fontm,
+                                        bg='white')
+
+        # 개인 총합 위치지정
+        for i in range(0, self.rpersonnum):
+            self.rper_tolsum[i].place(x=750, y=160 + 40 * (i + 1))
+
+        # 기존 총합 계산
+        for i in range(0, self.rpersonnum):
+            self.ori_price += self.per_sum[i]
+        self.ori_price += self.g_trans
+
+        #반올림한 총합
+        for i in range(0, self.rpersonnum):
+            self.round_price += self.per_sum[i]
+            self.round_price += self.rgroupmenup
+
+        #차액 계산 원래금액 - 개인토탈금액 >0
+        self.odprice = self.ori_price - self.rpertotal
+
+        if self.odprice>0:
+            self.over_price = self.odprice
+            self.under_price = 0
+        elif self.odprice<0:
+            self.under_price= abs(self.odprice)
+        else:
+            self.under_price=0
+            self.over_price=0
+
+        # 기존 금액 / 남은 금액 / 모자란 금액 440
+        self.price = Label(self.receipt, text="반올림 전 총액: " + str(self.ori_price) + "   반올림 후 총액: " + str(self.round_price) +"   모자란 금액 : " +str(self.over_price) +"   남은 금액 :"+str(self.under_price),
+                           fg='#db4455', font=fontm, bg='white')
+        self.price.place(x=50, y=450)
 
     def back(self):
         Move = menu_insert.Menuinsert(self.receipt, self.rpersonnum)

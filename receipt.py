@@ -18,6 +18,8 @@ class Receipt:
         # 받아온 값 새로운 변수에 저장
         self.minputLocation = inputmenu[0]
         self.minputMenu = inputmenu[1]
+        # 이름
+
         # 그룹메뉴
         self.mgroupmenu = inputmenu[8]
         self.mupdown = inputmenu[9]
@@ -69,11 +71,11 @@ class Receipt:
         # person[1+1][0]
         self.per_sum = [0, 0, 0, 0, 0, 0]
         for i in range(0, self.rpersonnum):  # range 명수까지 입력
-            p_split = self.person[i + 2][1].split('/')  # 값 계산 안됨....
+            p_split = self.person[i + 2][1].split('/')
             p_trans = map(int, p_split)
             self.per_sum[i] = sum(p_trans)
 
-        # #그룹메뉴
+        #그룹메뉴
             g_split = self.mgroupmenu.split('/')
             g_trans = map(int, g_split)
             self.rgroupmenu = sum(g_trans)
@@ -96,6 +98,9 @@ class Receipt:
         # 사람6메뉴
         self.rpersonmenu[6-1] = Label(self.receipt, text=str(self.per_sum[5]) + '\t\t            ' + str(self.rgroupmenu),
                                   fg='#db4455', font=fontm, bg='white')
-        #메뉴 위치 배정
+        #메뉴 위치 지정
         for i in range(0, self.rpersonnum):
             self.rpersonmenu[i].place(x=275, y=160 + 40 * (i + 1))
+
+    def back(self):
+        Move = menu_insert.Menuinsert(self.receipt,self.rpersonnum)

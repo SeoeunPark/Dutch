@@ -10,7 +10,7 @@ import numPeople
 class Menuinsert:
     def __init__(self,menu,n):
         self.menu = menu
-        self.num=n
+        self.personnum=n
 
         self.menuBack = tkinter.PhotoImage(file="image/white.png")
         self.menuBackL = tkinter.Label(image=self.menuBack)
@@ -63,25 +63,25 @@ class Menuinsert:
         self.person6name = Entry(self.menu, width=20, font=fonts, relief="groove", bg='white', fg='black',
                                  highlightthickness=1, highlightbackground="#8294cd")
         # 사람 수 만큼 칸 보여주기
-        if (self.num == 2):
+        if (self.personnum == 2):
             self.person1name.place(x=100, y=250)
             self.person2name.place(x=100, y=280)
-        elif (self.num == 3):
+        elif (self.personnum == 3):
             self.person1name.place(x=100, y=250)
             self.person2name.place(x=100, y=280)
             self.person3name.place(x=100, y=310)
-        elif (self.num == 4):
+        elif (self.personnum == 4):
             self.person1name.place(x=100, y=250)
             self.person2name.place(x=100, y=280)
             self.person3name.place(x=100, y=310)
             self.person4name.place(x=100, y=340)
-        elif (self.num == 5):
+        elif (self.personnum == 5):
             self.person1name.place(x=100, y=250)
             self.person2name.place(x=100, y=280)
             self.person3name.place(x=100, y=310)
             self.person4name.place(x=100, y=340)
             self.person5name.place(x=100, y=370)
-        elif (self.num == 6):
+        elif (self.personnum == 6):
             self.person1name.place(x=100, y=250)
             self.person2name.place(x=100, y=280)
             self.person3name.place(x=100, y=310)
@@ -118,25 +118,25 @@ class Menuinsert:
                                highlightthickness=1, highlightbackground="#8294cd")
         self.groupmenu.place(x=100, y=500)
 
-        if (self.num == 2):
+        if (self.personnum == 2):
             self.person1menu.place(x=330, y=250)
             self.person2menu.place(x=330, y=280)
-        elif (self.num == 3):
+        elif (self.personnum == 3):
             self.person1menu.place(x=330, y=250)
             self.person2menu.place(x=330, y=280)
             self.person3menu.place(x=330, y=310)
-        elif (self.num == 4):
+        elif (self.personnum == 4):
             self.person1menu.place(x=330, y=250)
             self.person2menu.place(x=330, y=280)
             self.person3menu.place(x=330, y=310)
             self.person4menu.place(x=330, y=340)
-        elif (self.num == 5):
+        elif (self.personnum == 5):
             self.person1menu.place(x=330, y=250)
             self.person2menu.place(x=330, y=280)
             self.person3menu.place(x=330, y=310)
             self.person4menu.place(x=330, y=340)
             self.person5menu.place(x=330, y=370)
-        elif (self.num == 6):
+        elif (self.personnum == 6):
             self.person1menu.place(x=330, y=250)
             self.person2menu.place(x=330, y=280)
             self.person3menu.place(x=330, y=310)
@@ -182,13 +182,11 @@ class Menuinsert:
                       [self.person6name.get(), self.person6menu.get()],
                       self.groupmenu.get(), self.RadioVariety_1.get()]
         # [위치,메뉴,[1],[2],[3],[4],[5],[6],group,단위]
-            Move = receipt.Receipt(self.menu, inputm)
+            Move = receipt.Receipt(self.menu, inputm,self.personnum)
 
     def moveTonumPeople(self):
         Move = numPeople.NumPeople(self.menu)
 
-    def to_main(self):
-        Move = main.Main(self.menu)
 
     def play(self):
         self.menu.mainloop()

@@ -7,9 +7,9 @@ from tkinter import *
 
 
 class Receipt:
-    def __init__(self, receipt, inputmenu):
+    def __init__(self, receipt, inputmenu, personnum):
         self.receipt = receipt
-        self.rnum = 2
+        self.rpersonnum = personnum
 
         # 0,1[self.inputLocation.get(), self.inputMenu.get(),
         # 2 [self.person1name.get(), self.person1menu.get()],
@@ -82,25 +82,25 @@ class Receipt:
         # 사람6이름
         self.rperson6name = Label(self.receipt, text=self.person[6 + 1][0], fg='#db4455', font=fontm, bg='white')
 
-        if(self.rnum==2):
+        if (self.rpersonnum == 2):
             self.rperson1name.place(x=50, y=200)
             self.rperson2name.place(x=50, y=240)
-        elif(self.rnum==3):
+        elif (self.rpersonnum == 3):
             self.rperson1name.place(x=50, y=200)
             self.rperson2name.place(x=50, y=240)
             self.rperson3name.place(x=50, y=280)
-        elif (self.rnum==4):
+        elif (self.rpersonnum == 4):
             self.rperson1name.place(x=50, y=200)
             self.rperson2name.place(x=50, y=240)
             self.rperson3name.place(x=50, y=280)
             self.rperson4name.place(x=50, y=320)
-        elif (self.rnum==5):
+        elif (self.rpersonnum == 5):
             self.rperson1name.place(x=50, y=200)
             self.rperson2name.place(x=50, y=240)
             self.rperson3name.place(x=50, y=280)
             self.rperson4name.place(x=50, y=320)
             self.rperson5name.place(x=50, y=360)
-        elif (self.rnum==6):
+        elif (self.rpersonnum == 6):
             self.rperson1name.place(x=50, y=200)
             self.rperson2name.place(x=50, y=240)
             self.rperson3name.place(x=50, y=280)
@@ -111,51 +111,57 @@ class Receipt:
         # 1. /로 나누기 2. 문자로 된 리스트 값 정수로 바꾸기 3. 합계 구하기
         # person[1+1][0]
         self.per_sum = [0, 0, 0, 0, 0, 0]
-        for i in range(0, self.rnum): #range 명수까지 입력
-                p_split = self.person[i+2][1].split('/')  # 값 계산 안됨....
-                p_trans = map(int, p_split)
-                self.per_sum[i] = sum(p_trans)
+        for i in range(0, self.rpersonnum):  # range 명수까지 입력
+            p_split = self.person[i + 2][1].split('/')  # 값 계산 안됨....
+            p_trans = map(int, p_split)
+            self.per_sum[i] = sum(p_trans)
 
         # #그룹메뉴
-        if(self.mgroupmenu!=''):
-            g_split =self.mgroupmenu.split('/')
-            g_trans= map(int,g_split)
+        if (self.mgroupmenu != ''):
+            g_split = self.mgroupmenu.split('/')
+            g_trans = map(int, g_split)
             self.rgroupmenu = sum(g_trans)
         else:
-            self.rgroupmenu='1000'
+            self.rgroupmenu = '1000'
 
         # 사람1메뉴
-        self.rperson1menu = Label(self.receipt, text=str(self.per_sum[0])+'\t\t            '+str(self.rgroupmenu), fg='#db4455', font=fontm, bg='white')
+        self.rperson1menu = Label(self.receipt, text=str(self.per_sum[0]) + '\t\t            ' + str(self.rgroupmenu),
+                                  fg='#db4455', font=fontm, bg='white')
         # 사람2메뉴
-        self.rperson2menu = Label(self.receipt, text=str(self.per_sum[1])+'\t\t            '+str(self.rgroupmenu), fg='#db4455', font=fontm, bg='white')
+        self.rperson2menu = Label(self.receipt, text=str(self.per_sum[1]) + '\t\t            ' + str(self.rgroupmenu),
+                                  fg='#db4455', font=fontm, bg='white')
         # 사람3메뉴
-        self.rperson3menu = Label(self.receipt, text=str(self.per_sum[2])+'\t\t            '+str(self.rgroupmenu), fg='#db4455', font=fontm, bg='white')
+        self.rperson3menu = Label(self.receipt, text=str(self.per_sum[2]) + '\t\t            ' + str(self.rgroupmenu),
+                                  fg='#db4455', font=fontm, bg='white')
         # 사람4메뉴
-        self.rperson4menu = Label(self.receipt, text=str(self.per_sum[3])+'\t\t            '+str(self.rgroupmenu), fg='#db4455', font=fontm, bg='white')
+        self.rperson4menu = Label(self.receipt, text=str(self.per_sum[3]) + '\t\t            ' + str(self.rgroupmenu),
+                                  fg='#db4455', font=fontm, bg='white')
         # 사람5메뉴
-        self.rperson5menu = Label(self.receipt, text=str(self.per_sum[4])+'\t\t            '+str(self.rgroupmenu), fg='#db4455', font=fontm, bg='white')
+        self.rperson5menu = Label(self.receipt, text=str(self.per_sum[4]) + '\t\t            ' + str(self.rgroupmenu),
+                                  fg='#db4455', font=fontm, bg='white')
         # 사람6메뉴
-        self.rperson6menu = Label(self.receipt, text=str(self.per_sum[5])+'\t\t            '+str(self.rgroupmenu), fg='#db4455', font=fontm, bg='white')
+        self.rperson6menu = Label(self.receipt, text=str(self.per_sum[5]) + '\t\t            ' + str(self.rgroupmenu),
+                                  fg='#db4455', font=fontm, bg='white')
 
-        if (self.rnum == 2):
+        if (self.rpersonnum == 2):
             self.rperson1menu.place(x=275, y=200)
             self.rperson2menu.place(x=275, y=240)
-        elif (self.rnum == 3):
+        elif (self.rpersonnum == 3):
             self.rperson1menu.place(x=275, y=200)
             self.rperson2menu.place(x=275, y=240)
             self.rperson3menu.place(x=275, y=280)
-        elif (self.rnum == 4):
+        elif (self.rpersonnum == 4):
             self.rperson1menu.place(x=275, y=200)
             self.rperson2menu.place(x=275, y=240)
             self.rperson3menu.place(x=275, y=280)
             self.rperson4menu.place(x=275, y=320)
-        elif (self.rnum == 5):
+        elif (self.rpersonnum == 5):
             self.rperson1menu.place(x=275, y=200)
             self.rperson2menu.place(x=275, y=240)
             self.rperson3menu.place(x=275, y=280)
             self.rperson4menu.place(x=275, y=320)
             self.rperson5menu.place(x=275, y=360)
-        elif (self.rnum == 6):
+        elif (self.rpersonnum == 6):
             self.rperson1menu.place(x=275, y=200)
             self.rperson2menu.place(x=275, y=240)
             self.rperson3menu.place(x=275, y=280)

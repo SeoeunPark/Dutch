@@ -11,17 +11,23 @@ class Menuinsert:
     def __init__(self,menu,n):
         self.menu = menu
         self.personnum=n
-
+        self.personname = [0,0,0,0,0,0]
+        self.personmenu = [0,0,0,0,0,0]
+        
+        #배경 설정
         self.menuBack = tkinter.PhotoImage(file="image/white.png")
         self.menuBackL = tkinter.Label(image=self.menuBack)
         self.menuBackL.place(x=-2, y=-2)
-
+        #폰트 설정 
         fonts = tkinter.font.Font(size=11, weight='bold')
         fontm = tkinter.font.Font(size=13, weight='bold')
         # 장소 입력
         self.locationText = Label(menu, text='장소', width=6, bg="white", font=fontm, fg='#ff7878')
         self.locationText.place(x=100, y=70)
-
+        
+        #입력수에 제한받지 않고 필수로 나타나는 칸
+        
+        #위치 입력칸 
         self.inputLocation = Entry(self.menu, width=23, font=fonts, relief="groove", highlightthickness=2,
                                    highlightbackground="#8294cd")
         self.inputLocation.place(x=100, y=100)
@@ -45,70 +51,48 @@ class Menuinsert:
         self.locationText = Label(self.menu, text='이름', width=10, bg="white", font=fontm, fg='#ff7878')
         self.locationText.place(x=100, y=210)  # 410
         # 사람1
-        self.person1name = Entry(self.menu, width=20, font=fonts, relief="groove", bg='white', fg='black',
+        self.personname[1-1] = Entry(self.menu, width=20, font=fonts, relief="groove", bg='white', fg='black',
                                  highlightthickness=1, highlightbackground="#8294cd")
         # 사람2
-        self.person2name = Entry(self.menu, width=20, font=fonts, relief="groove", bg='white', fg='black',
+        self.personname[2-1] = Entry(self.menu, width=20, font=fonts, relief="groove", bg='white', fg='black',
                                  highlightthickness=1, highlightbackground="#8294cd")
         # 사람3
-        self.person3name = Entry(self.menu, width=20, font=fonts, relief="groove", bg='white', fg='black',
+        self.personname[3-1] = Entry(self.menu, width=20, font=fonts, relief="groove", bg='white', fg='black',
                                  highlightthickness=1, highlightbackground="#8294cd")
         # 사람4
-        self.person4name = Entry(self.menu, width=20, font=fonts, relief="groove", bg='white', fg='black',
+        self.personname[4-1] = Entry(self.menu, width=20, font=fonts, relief="groove", bg='white', fg='black',
                                  highlightthickness=1, highlightbackground="#8294cd")
         # 사람5
-        self.person5name = Entry(self.menu, width=20, font=fonts, relief="groove", bg='white', fg='black',
+        self.personname[5-1] = Entry(self.menu, width=20, font=fonts, relief="groove", bg='white', fg='black',
                                  highlightthickness=1, highlightbackground="#8294cd")
         # 사람6
-        self.person6name = Entry(self.menu, width=20, font=fonts, relief="groove", bg='white', fg='black',
+        self.personname[6-1] = Entry(self.menu, width=20, font=fonts, relief="groove", bg='white', fg='black',
                                  highlightthickness=1, highlightbackground="#8294cd")
+        
         # 사람 수 만큼 칸 보여주기
-        if (self.personnum == 2):
-            self.person1name.place(x=100, y=250)
-            self.person2name.place(x=100, y=280)
-        elif (self.personnum == 3):
-            self.person1name.place(x=100, y=250)
-            self.person2name.place(x=100, y=280)
-            self.person3name.place(x=100, y=310)
-        elif (self.personnum == 4):
-            self.person1name.place(x=100, y=250)
-            self.person2name.place(x=100, y=280)
-            self.person3name.place(x=100, y=310)
-            self.person4name.place(x=100, y=340)
-        elif (self.personnum == 5):
-            self.person1name.place(x=100, y=250)
-            self.person2name.place(x=100, y=280)
-            self.person3name.place(x=100, y=310)
-            self.person4name.place(x=100, y=340)
-            self.person5name.place(x=100, y=370)
-        elif (self.personnum == 6):
-            self.person1name.place(x=100, y=250)
-            self.person2name.place(x=100, y=280)
-            self.person3name.place(x=100, y=310)
-            self.person4name.place(x=100, y=340)
-            self.person5name.place(x=100, y=370)
-            self.person6name.place(x=100, y=400)
+        for i in range(0,self.personnum):
+            self.personname[i].place(x=100,y=220+30*(i+1))
 
         # 메뉴 가격
         self.priceText = Label(self.menu, text='메뉴 가격', width=10, bg="white", font=fontm, fg='#ff7878')
         self.priceText.place(x=330, y=210)  # 410
         # 메뉴1
-        self.person1menu = Entry(self.menu, width=50, font=fonts, relief="groove", bg='white', fg='black',
+        self.personmenu[1-1] = Entry(self.menu, width=50, font=fonts, relief="groove", bg='white', fg='black',
                                  highlightthickness=1, highlightbackground="#8294cd")
         # 메뉴2
-        self.person2menu = Entry(self.menu, width=50, font=fonts, relief="groove", bg='white', fg='black',
+        self.personmenu[2-1] = Entry(self.menu, width=50, font=fonts, relief="groove", bg='white', fg='black',
                                  highlightthickness=1, highlightbackground="#8294cd")
         # 메뉴3
-        self.person3menu = Entry(self.menu, width=50, font=fonts, relief="groove", bg='white', fg='black',
+        self.personmenu[3-1] = Entry(self.menu, width=50, font=fonts, relief="groove", bg='white', fg='black',
                                  highlightthickness=1, highlightbackground="#8294cd")
         # 메뉴4
-        self.person4menu = Entry(self.menu, width=50, font=fonts, relief="groove", bg='white', fg='black',
+        self.personmenu[4-1] = Entry(self.menu, width=50, font=fonts, relief="groove", bg='white', fg='black',
                                  highlightthickness=1, highlightbackground="#8294cd")
         # 메뉴5
-        self.person5menu = Entry(self.menu, width=50, font=fonts, relief="groove", bg='white', fg='black',
+        self.personmenu[5-1] = Entry(self.menu, width=50, font=fonts, relief="groove", bg='white', fg='black',
                                  highlightthickness=1, highlightbackground="#8294cd")
         # 메뉴6
-        self.person6menu = Entry(self.menu, width=50, font=fonts, relief="groove", bg='white', fg='black',
+        self.personmenu[6-1] = Entry(self.menu, width=50, font=fonts, relief="groove", bg='white', fg='black',
                                  highlightthickness=1, highlightbackground="#8294cd")
         # 단체메뉴
         self.groupmenuText = Label(self.menu, text='단체메뉴 가격', width=10, bg="white", font=fontm, fg='#ff7878')
@@ -118,31 +102,9 @@ class Menuinsert:
                                highlightthickness=1, highlightbackground="#8294cd")
         self.groupmenu.place(x=100, y=500)
 
-        if (self.personnum == 2):
-            self.person1menu.place(x=330, y=250)
-            self.person2menu.place(x=330, y=280)
-        elif (self.personnum == 3):
-            self.person1menu.place(x=330, y=250)
-            self.person2menu.place(x=330, y=280)
-            self.person3menu.place(x=330, y=310)
-        elif (self.personnum == 4):
-            self.person1menu.place(x=330, y=250)
-            self.person2menu.place(x=330, y=280)
-            self.person3menu.place(x=330, y=310)
-            self.person4menu.place(x=330, y=340)
-        elif (self.personnum == 5):
-            self.person1menu.place(x=330, y=250)
-            self.person2menu.place(x=330, y=280)
-            self.person3menu.place(x=330, y=310)
-            self.person4menu.place(x=330, y=340)
-            self.person5menu.place(x=330, y=370)
-        elif (self.personnum == 6):
-            self.person1menu.place(x=330, y=250)
-            self.person2menu.place(x=330, y=280)
-            self.person3menu.place(x=330, y=310)
-            self.person4menu.place(x=330, y=340)
-            self.person5menu.place(x=330, y=370)
-            self.person6menu.place(x=330, y=400)
+        # 사람 수 만큼 메뉴칸 보여주기
+        for i in range(0,self.personnum):
+            self.personmenu[i].place(x=330,y=220+30*(i+1))
 
         # 반올림
         self.groupText = Label(self.menu, text='반올림 단위 ', width=10, bg="white", font=fontm, fg='#ff7878')
@@ -174,12 +136,12 @@ class Menuinsert:
         # person6menu,groupmenu,updown
 
             inputm = [self.inputLocation.get(), self.inputMenu.get(),
-                      [self.person1name.get(), self.person1menu.get()],
-                      [self.person2name.get(), self.person2menu.get()],
-                      [self.person3name.get(), self.person3menu.get()],
-                      [self.person4name.get(), self.person4menu.get()],
-                      [self.person5name.get(), self.person5menu.get()],
-                      [self.person6name.get(), self.person6menu.get()],
+                      [self.personname[1-1].get(), self.personmenu[1-1].get()],
+                      [self.personname[2-1].get(), self.personmenu[2-1].get()],
+                      [self.personname[3-1].get(), self.personmenu[3-1].get()],
+                      [self.personname[4-1].get(), self.personmenu[4-1].get()],
+                      [self.personname[5-1].get(), self.personmenu[5-1].get()],
+                      [self.personname[6-1].get(), self.personmenu[6-1].get()],
                       self.groupmenu.get(), self.RadioVariety_1.get()]
         # [위치,메뉴,[1],[2],[3],[4],[5],[6],group,단위]
             Move = receipt.Receipt(self.menu, inputm,self.personnum)

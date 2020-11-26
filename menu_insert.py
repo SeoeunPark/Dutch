@@ -14,6 +14,7 @@ class Menuinsert:
         self.personnum = n
         self.personname = [0, 0, 0, 0, 0, 0]
         self.personmenu = [0, 0, 0, 0, 0, 0]
+        self.persontotal =[0, 0, 0, 0, 0, 0]
 
         # 배경 설정
         self.menuBack = tkinter.PhotoImage(file="image/white.png")
@@ -42,7 +43,7 @@ class Menuinsert:
         self.infoButton.place(x=800, y=25)
         # 메뉴 입력
         self.menuText = Label(self.menu, text='더치페이 할 품목', width=20, bg="white", font=fontm, fg='#ff7878')
-        self.menuText.place(x=90, y=140)
+        self.menuText.place(x=65, y=140)
 
         self.inputMenu = Entry(self.menu, width=80, font=fonts, relief="groove", highlightthickness=2,
                                highlightbackground="#8294cd")
@@ -50,7 +51,7 @@ class Menuinsert:
 
         # 이름 입력
         self.locationText = Label(self.menu, text='이름', width=10, bg="white", font=fontm, fg='#ff7878')
-        self.locationText.place(x=100, y=210)  # 410
+        self.locationText.place(x=70, y=210)  # 410
         # 사람1
         self.personname[1 - 1] = Entry(self.menu, width=20, font=fonts, relief="groove", bg='white', fg='black',
                                        highlightthickness=1, highlightbackground="#8294cd")
@@ -75,7 +76,7 @@ class Menuinsert:
             self.personname[i].place(x=100, y=220 + 30 * (i + 1))
 
         # 메뉴 가격
-        self.priceText = Label(self.menu, text='메뉴 가격', width=10, bg="white", font=fontm, fg='#ff7878')
+        self.priceText = Label(self.menu, text='개인 메뉴 가격', width=10, bg="white", font=fontm, fg='#ff7878')
         self.priceText.place(x=330, y=210)  # 410
         # 메뉴1
         self.personmenu[1 - 1] = Entry(self.menu, width=50, font=fonts, relief="groove", bg='white', fg='black',
@@ -114,17 +115,25 @@ class Menuinsert:
         # 라디오 버튼
         self.RadioVariety_1 = tkinter.IntVar()
 
-        self.rd1 = Radiobutton(self.menu, text="100", bg="white", font=fontm, fg='#ff7878', value=1,
+        self.rd1 = Radiobutton(self.menu, text="10", bg="white", font=fontm, fg='#ff7878', value=1,
                                variable=self.RadioVariety_1)
         self.rd1.place(x=100, y=600)
 
-        self.rd2 = Radiobutton(self.menu, text="1000", bg="white", font=fontm, fg='#ff7878', value=2,
+        self.rd2 = Radiobutton(self.menu, text="100", bg="white", font=fontm, fg='#ff7878', value=2,
                                variable=self.RadioVariety_1)
         self.rd2.place(x=200, y=600)
 
-        self.rd3 = Radiobutton(self.menu, text="10000", bg="white", font=fontm, fg='#ff7878', value=3,
+        self.rd3 = Radiobutton(self.menu, text="1000", bg="white", font=fontm, fg='#ff7878', value=3,
                                variable=self.RadioVariety_1)
         self.rd3.place(x=300, y=600)
+
+        self.rd4 = Radiobutton(self.menu, text="10000", bg="white", font=fontm, fg='#ff7878', value=4,
+                               variable=self.RadioVariety_1)
+        self.rd4.place(x=400, y=600)
+
+        self.rd5 = Radiobutton(self.menu, text="반올림 안 함", bg="white", font=fontm, fg='#ff7878', value=5,
+                               variable=self.RadioVariety_1)
+        self.rd5.place(x=500, y=600)
 
         # 저장 버튼
         self.saveButton = Button(self.menu, width=30, text='G O !', repeatdelay=20, bg='#ff7878',
@@ -135,15 +144,15 @@ class Menuinsert:
 
         for i in range(0, self.personnum):
             if not self.personname[0].get():
-                tkinter.messagebox.showinfo("이름 입력","모든 사람의 이름을 입력해주세요.")
+                tkinter.messagebox.showinfo("이름 입력", "모든 사람의 이름을 입력해주세요.")
                 break
             if not self.personmenu[i].get():
-                tkinter.messagebox.showinfo("개인메뉴 가격 입력","모든 개인메뉴 가격을 입력해주세요."
-                                            "\n개임메뉴가격이 없는 경우 0을 입력해주세요")
+                tkinter.messagebox.showinfo("개인메뉴 가격 입력", "모든 개인메뉴 가격을 입력해주세요."
+                                                          "\n개임메뉴가격이 없는 경우 0을 입력해주세요")
                 break
             if not self.groupmenu.get():
-                tkinter.messagebox.showinfo("그룹메뉴 가격 입력","그룹메뉴 가격을 입력해주세요."
-                                            "\n그룹메뉴가격이 없는 경우 0을 입력해주세요")
+                tkinter.messagebox.showinfo("그룹메뉴 가격 입력", "그룹메뉴 가격을 입력해주세요."
+                                                          "\n그룹메뉴가격이 없는 경우 0을 입력해주세요")
                 break
             else:
                 inputm = [self.inputLocation.get(), self.inputMenu.get(),

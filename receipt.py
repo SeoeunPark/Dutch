@@ -1,9 +1,15 @@
 import math
 import tkinter
 import tkinter.ttk
+import datetime
 import tkinter.font
 
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import db
+
 import menu_insert
+import start
 from tkinter import *
 
 
@@ -21,28 +27,27 @@ class Receipt:
         #          7[self.personname[6 - 1].get(), self.personmenu[6 - 1].get()],
         #           8,9self.groupmenu.get(), self.RadioVariety_1.get()]
 
-        self.rpertotal =0
+        self.rpertotal = 0
         self.receipt = receipt
         self.rpersonnum = personnum
-        self.rpersonname = [0, 0, 0, 0, 0, 0]
-        self.rpersonmenu = [0, 0, 0, 0, 0, 0]
-        self.per_sum = [0, 0, 0, 0, 0, 0]
+        self.rpersonname = [0, 0, 0, 0, 0, 0]  # 사람 이름
+        self.rpersonmenu = [0, 0, 0, 0, 0, 0]  # 메뉴
+        self.per_sum = [0, 0, 0, 0, 0, 0]  # 개인메뉴 합계
         self.per_tolsum = [0, 0, 0, 0, 0, 0]  # 계산
         self.rper_tolsum = [0, 0, 0, 0, 0, 0]  # 텍스트
-        self.round_price = 0 #반올림 한 총합
-        self.ori_price = 0 #반올림 전 총합
-
+        self.round_price = 0  # 반올림 한 총합
+        self.ori_price = 0  # 반올림 전 총합
 
         # menu_insert에서 배열 받아옴
         self.person = inputmenu
         # 받아온 값 새로운 변수에 저장
-        self.minputLocation = inputmenu[0]
-        self.minputMenu = inputmenu[1]
+        self.rinputLocation = inputmenu[0]
+        self.rinputMenu = inputmenu[1]
         # 이름
 
         # 그룹메뉴
         self.mgroupmenu = inputmenu[8]
-        self.mupdown = inputmenu[9]
+        self.mupdown = self.person[9]  # 라디오 버튼 1 : 10 ,2:100,3 :1000 4:10000 5 : 반올림 안 함
         # 폰트
         fonts = tkinter.font.Font(size=10, weight='bold')
         fontm = tkinter.font.Font(size=14, weight='bold')
@@ -59,16 +64,16 @@ class Receipt:
         self.backButton.place(x=20, y=25)
         # 저장 버튼
         self.saveButton = Button(self.receipt, width=30, text='저 장', repeatdelay=20, bg='#ff7878', font=fontm,
-                                 fg="white")
+                                 fg="white", command=self.save)
         self.saveButton.place(x=300, y=650)
 
         # 화면 배치하기
 
         # 위치
-        self.rinputLocation = Label(self.receipt, text=self.minputLocation, fg='#db4455', font=fontm, bg='white')
+        self.rinputLocation = Label(self.receipt, text=self.rinputLocation, fg='#db4455', font=fontm, bg='white')
         self.rinputLocation.place(x=130, y=530)
         # 메뉴
-        self.rinputMenu = Label(self.receipt, text=self.minputMenu, fg='#db4455', font=fontm, bg='white')
+        self.rinputMenu = Label(self.receipt, text=self.rinputMenu, fg='#db4455', font=fontm, bg='white')
         self.rinputMenu.place(x=90, y=570)
         # 사람1이름
         self.rpersonname[1 - 1] = Label(self.receipt, text=self.person[1 + 1][0], fg='#db4455', font=fontm, bg='white')
@@ -91,35 +96,33 @@ class Receipt:
         # person[1+1][0]
 
         for i in range(0, self.rpersonnum):  # range 명수까지 입력
-            p_split = self.person[i + 2][1].split('/')
-            p_trans = map(int, p_split)
-            p_sum = sum(p_trans)
-            if self.person[9] == 1:
+            p_split = self.person[i + 2][1].split('/')  # /로 나눠서 split
+            p_trans = map(int, p_split)  # int 타입으로 변환
+            p_sum = sum(p_trans)  # 리스트에 들어있는 값의 합을 구함
+            if self.mupdown == 1:
                 self.per_sum[i] = round(p_sum, -1)
-            elif self.person[9] == 2:
+            elif self.mupdown == 2:
                 self.per_sum[i] = round(p_sum, -2)
-            elif self.person[9] == 3:
+            elif self.mupdown == 3:
                 self.per_sum[i] = round(p_sum, -3)
-            elif self.person[9] == 4:
+            elif self.mupdown == 4:
                 self.per_sum[i] = round(p_sum, -4)
             else:
                 self.per_sum[i] = p_sum
 
-
-
         # 그룹메뉴
         g_split = self.mgroupmenu.split('/')
         self.g_trans = sum(map(int, g_split))
-        self.rgroupmenu = int(self.g_trans / self.rpersonnum)
+        self.rgroupmenu = int(self.g_trans / self.rpersonnum)  # 1/n 으로 나눔
 
         # 그룹메뉴 반올림
-        if self.person[9] == 1:
+        if self.mupdown == 1:
             self.rgroupmenup = round(self.rgroupmenu, -1)
-        elif self.person[9] == 2:
+        elif self.mupdown == 2:
             self.rgroupmenup = round(self.rgroupmenu, -2)
-        elif self.person[9] == 3:
+        elif self.mupdown == 3:
             self.rgroupmenup = round(self.rgroupmenu, -3)
-        elif self.person[9] == 4:
+        elif self.mupdown == 4:
             self.rgroupmenup = round(self.rgroupmenu, -4)
         else:
             self.rgroupmenup = self.rgroupmenu
@@ -180,28 +183,73 @@ class Receipt:
             self.ori_price += self.per_sum[i]
         self.ori_price += self.g_trans
 
-        #반올림한 총합
+        # 반올림한 총합
         for i in range(0, self.rpersonnum):
             self.round_price += self.per_sum[i]
             self.round_price += self.rgroupmenup
 
-        #차액 계산 원래금액 - 개인토탈금액 >0
+        # 차액 계산 원래금액 - 전체 개인토탈금액 >0
         self.odprice = self.ori_price - self.rpertotal
 
-        if self.odprice>0:
+        if self.odprice > 0:
             self.over_price = self.odprice
             self.under_price = 0
-        elif self.odprice<0:
-            self.under_price= abs(self.odprice)
+        elif self.odprice < 0:
+            self.under_price = abs(self.odprice)
             self.over_price = 0
         else:
-            self.under_price=0
-            self.over_price=0
+            self.under_price = 0
+            self.over_price = 0
 
         # 기존 금액 / 남은 금액 / 모자란 금액 440
-        self.price = Label(self.receipt, text="반올림 전 총액: " + str(self.ori_price) + "   반올림 후 총액: " + str(self.round_price) +"   모자란 금액 : " +str(self.over_price) +"   남은 금액 :"+str(self.under_price),
-                           fg='#db4455', font=fontm, bg='white')
+        self.price = Label(self.receipt, text="반올림 전 총액: " + str(self.ori_price) + "   반올림 후 총액: " + str(
+            self.round_price) + "   모자란 금액 : " + str(self.over_price) + "   남은 금액 :" + str(self.under_price),
+                           fg='#db4455', font=fonts, bg='white')
         self.price.place(x=50, y=450)
 
     def back(self):
         Move = menu_insert.Menuinsert(self.receipt, self.rpersonnum)
+
+    def save(self):
+        dt = datetime.datetime.now()
+        self.filename = dt.strftime('%Y_%m_%d_%H%M%S')
+
+        # 메뉴,위치,사람명수,[사람1이름,사람1메뉴],[사람2이름,사람2메뉴]...이렇게 사람
+        # 사람1 이름 꺼내고 싶으면 file_r[1][0] 메뉴 꺼내고 싶으면 file_r[1][1]
+        #                 #[메뉴 이름 ,             장소 ,                사람명수]
+        # self.file_r = [[self.rinputMenu, self.rinputLocation, str(self.rpersonnum)],
+        #                # [이름,                       개인메뉴 합,       개인토탈금액(개인메뉴 + 그룹)]
+        #                [self.rpersonname[1 - 1], self.per_sum[1 - 1], self.per_tolsum[1 - 1]],
+        #                [self.rpersonname[2 - 1], self.per_sum[2 - 1], self.per_tolsum[2 - 1]],
+        #                [self.rpersonname[3 - 1], self.per_sum[3 - 1], self.per_tolsum[3 - 1]],
+        #                [self.rpersonname[4 - 1], self.per_sum[4 - 1], self.per_tolsum[4 - 1]],
+        #                [self.rpersonname[5 - 1], self.per_sum[5 - 1], self.per_tolsum[5 - 1]],
+        #                [self.rpersonname[6 - 1], self.per_sum[6 - 1], self.per_tolsum[6 - 1]],
+        #                # 반올림한 1/n한 그룹메뉴(각자 토탈금액에 더해지는 값
+        #                self.rgroupmenup,
+        #                # 반올림전 총액,              반올림후 총액,            모자란금액,             남은 금액
+        #                [str(self.ori_price), str(self.round_price), str(self.over_price), str(self.under_price)]]
+        #
+        # f = open(filename, "w")
+        # f.write(''.join(self.file_r[0]))
+        # f.write(''.join(self.file_r[1]))
+        #
+        # f.close()
+        # cred = credentials.Certificate('mykey.json')
+        # firebase_admin.initialize_app(cred, {
+        #     'databaseURL' : 'https://dutchpay-28308.firebaseio.com/'
+        # })
+        #
+        # ref = db.reference('User/12')
+        # ref.update({'메뉴이름': self.rinputMenu})
+        # ref.update({'장소': self.rinputLocation})
+        # ref.update({'명수': self.rpersonnum})
+        # ref.update({'그룹메뉴가격': self.rgroupmenup})
+        # ref.update({'반올림전총액': str(self.ori_price)})
+        # ref.update({'반올림후총액': str(self.round_price)})
+        # ref.update({'모자란금액': str(self.over_price)})
+        # ref.update({'남은금액': str(self.under_price)})
+        # ref.update({'사람1': })
+
+
+        #Move = start.Start(self.receipt)

@@ -93,12 +93,24 @@ class Receipt:
         for i in range(0, self.rpersonnum):  # range 명수까지 입력
             p_split = self.person[i + 2][1].split('/')
             p_trans = map(int, p_split)
-            self.per_sum[i] = sum(p_trans)
+            p_sum = sum(p_trans)
+            if self.person[9] == 1:
+                self.per_sum[i] = round(p_sum, -1)
+            elif self.person[9] == 2:
+                self.per_sum[i] = round(p_sum, -2)
+            elif self.person[9] == 3:
+                self.per_sum[i] = round(p_sum, -3)
+            elif self.person[9] == 4:
+                self.per_sum[i] = round(p_sum, -4)
+            else:
+                self.per_sum[i] = p_sum
 
-            # 그룹메뉴
-            g_split = self.mgroupmenu.split('/')
-            self.g_trans = sum(map(int, g_split))
-            self.rgroupmenu = int(self.g_trans / self.rpersonnum)
+
+
+        # 그룹메뉴
+        g_split = self.mgroupmenu.split('/')
+        self.g_trans = sum(map(int, g_split))
+        self.rgroupmenu = int(self.g_trans / self.rpersonnum)
 
         # 그룹메뉴 반올림
         if self.person[9] == 1:
@@ -181,6 +193,7 @@ class Receipt:
             self.under_price = 0
         elif self.odprice<0:
             self.under_price= abs(self.odprice)
+            self.over_price = 0
         else:
             self.under_price=0
             self.over_price=0

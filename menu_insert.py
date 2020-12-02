@@ -7,8 +7,8 @@ from tkinter import *
 import receipt
 import numPeople
 
-
 class Menuinsert:
+
     def __init__(self, menu, n):
         self.menu = menu
         self.personnum = n
@@ -141,7 +141,6 @@ class Menuinsert:
         self.saveButton.place(x=300, y=650)
 
     def to_receipt(self):
-
         for i in range(0, self.personnum):
             if not self.personname[0].get():
                 tkinter.messagebox.showinfo("이름 입력", "모든 사람의 이름을 입력해주세요.")

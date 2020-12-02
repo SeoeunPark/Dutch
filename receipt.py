@@ -1,32 +1,20 @@
-import math
 import tkinter
 import tkinter.ttk
 import datetime
 import tkinter.font
-
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import db
+import pymysql
+import json
 
 import menu_insert
 import start
 from tkinter import *
 
-
 # 개인 메뉴 잘 보여줌
 # 반올림 기능 해야함
 
 class Receipt:
-    def __init__(self, receipt, inputmenu, personnum):
-        # inputm = 1[self.inputLocation.get(), self.inputMenu.get(),
-        #           2[self.personname[1 - 1].get(), self.personmenu[1 - 1].get()],
-        #           3[self.personname[2 - 1].get(), self.personmenu[2 - 1].get()],
-        #           4[self.personname[3 - 1].get(), self.personmenu[3 - 1].get()],
-        #          5[self.personname[4 - 1].get(), self.personmenu[4 - 1].get()],
-        #           6[self.personname[5 - 1].get(), self.personmenu[5 - 1].get()],
-        #          7[self.personname[6 - 1].get(), self.personmenu[6 - 1].get()],
-        #           8,9self.groupmenu.get(), self.RadioVariety_1.get()]
 
+    def __init__(self, receipt, inputmenu, personnum):
         self.rpertotal = 0
         self.receipt = receipt
         self.rpersonnum = personnum
@@ -212,7 +200,35 @@ class Receipt:
 
     def save(self):
         dt = datetime.datetime.now()
-        self.filename = dt.strftime('%Y_%m_%d_%H%M%S')
+        #self.filename = dt.strftime('%Y_%m_%d_%H%M%S')
+        rpersonname = json.dumps(self.rpersonname)
+        rinputMenu = json.dumps(self.rinputMenu)
+        rinputLocation = json.dumps(self.rinputLocation)
+        rgroupmenup = json.dumps(self.rgroupmenup)
+        ori_price = json.dumps(self.ori_price)
+        round_price = json.dumps(self.round_price)
+        over_price = json.dumps(self.over_price)
+        under_price = json.dumps(self.under_price)
+
+        sqlCon = pymysql.connect(host="localhost", user="root", password="goodday0722", database="dutch")
+        cur = sqlCon.cursor()
+        sql = "INSERT INTO department (rpersonnum, rpersonname, rinputMenu, rinputLocation, rgroupmenup, ori_price, round_price, over_price, under_price) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s"
+        cur.execute(sql,
+            self.rpersonnum.get(),  # 명수
+            rpersonname,  # 이름
+            rinputMenu,  # 메뉴이름
+            rinputLocation,  # 장소
+            rgroupmenup,  # 그룹메뉴가격
+            ori_price,  # 반올림전총액
+            round_price,  # 반올림후총액
+            over_price,  # 모자란금액
+            under_price  # 남은금액
+        )
+        sqlCon.commit()
+        sqlCon.Close()
+        tkinter.messagebox.showinfo("Data Entry Form", "Record Entered Successfully")
+
+        Move = start.Start(self.receipt)
 
         # 메뉴,위치,사람명수,[사람1이름,사람1메뉴],[사람2이름,사람2메뉴]...이렇게 사람
         # 사람1 이름 꺼내고 싶으면 file_r[1][0] 메뉴 꺼내고 싶으면 file_r[1][1]
@@ -229,27 +245,5 @@ class Receipt:
         #                self.rgroupmenup,
         #                # 반올림전 총액,              반올림후 총액,            모자란금액,             남은 금액
         #                [str(self.ori_price), str(self.round_price), str(self.over_price), str(self.under_price)]]
-        #
-        # f = open(filename, "w")
-        # f.write(''.join(self.file_r[0]))
-        # f.write(''.join(self.file_r[1]))
-        #
-        # f.close()
-        # cred = credentials.Certificate('mykey.json')
-        # firebase_admin.initialize_app(cred, {
-        #     'databaseURL' : 'https://dutchpay-28308.firebaseio.com/'
-        # })
-        #
-        # ref = db.reference('User/12')
-        # ref.update({'메뉴이름': self.rinputMenu})
-        # ref.update({'장소': self.rinputLocation})
-        # ref.update({'명수': self.rpersonnum})
-        # ref.update({'그룹메뉴가격': self.rgroupmenup})
-        # ref.update({'반올림전총액': str(self.ori_price)})
-        # ref.update({'반올림후총액': str(self.round_price)})
-        # ref.update({'모자란금액': str(self.over_price)})
-        # ref.update({'남은금액': str(self.under_price)})
-        # ref.update({'사람1': })
 
 
-        #Move = start.Start(self.receipt)

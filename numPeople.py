@@ -1,6 +1,8 @@
 import tkinter
 import tkinter.font as tkFont
+from tkinter import *
 import menu_insert
+import start
 
 class NumPeople:
     def __init__(self, numPeople):
@@ -38,6 +40,19 @@ class NumPeople:
         self.nextPageButton = tkinter.Button(self.numPeople, text="묻고 더블로 가!⇨", font=self.NextfontStyle,
                                             command=self.moveToMenu, bg="#FF7878", bd="0", highlightthickness="0")
         self.nextPageButton.place(x=180, y=555)
+
+        # 폰트 설정
+        fonts = tkinter.font.Font(size=11, weight='bold')
+        fontm = tkinter.font.Font(size=13, weight='bold')
+
+        # 뒤로 가기 버튼
+        self.backButton = tkinter.Button(self.numPeople, width=4, text='⇦', repeatdelay=20, bg='#ff7878', font=fontm,
+                                 fg="white", command=self.moveToStart)
+        self.backButton.place(x=20, y=25)
+
+    #start으로 넘어가기
+    def moveToStart(self):
+        Move = start.Start(self.numPeople)
 
     #menu_insert으로 넘어가기
     def moveToMenu(self):

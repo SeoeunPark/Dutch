@@ -4,6 +4,8 @@ import tkinter.font
 import tkinter.messagebox
 from tkinter import *
 
+import pymysql
+
 import receipt
 import numPeople
 
@@ -176,6 +178,49 @@ class Menuinsert:
                                            "\n2.가격을 입력하실 때에는 첫번째칸부터 '/'로 가격을 나누어서 꼭 모두 입력해주세요. "
                                            "\n3.단체메뉴 가격도 '/'로 가격을 나누어서 입력해주세요."
                                            "\n4.입력을 끝냈다면 GO! 버튼을 눌러주세요.")
+
+    def save(self):
+        #dt = datetime.datetime.now()
+        #self.filename = dt.strftime('%Y_%m_%d_%H%M%S')
+
+        sqlCon = pymysql.connect(host="127.0.0.1", user="root", password="goodday0722", database="dutchdb")
+        cur = sqlCon.cursor()
+        cur.execute("INSERT INTO department (rpersonnum, rpersonname1, rpersonname2, rpersonname3, rpersonname4, rpersonname5, rpersonname6" \
+              "rinputMenu1, rinputMenu2, rinputMenu3, rinputMenu4, rinputMenu5, rinputMenu6, " \
+              "rper_tolsum1, rper_tolsum2, rper_tolsum3, rper_tolsum4, rper_tolsum5, rper_tolsum6, " \
+              "rinputLocation, rgroupmenup, ori_price, round_price, over_price, under_price) " \
+              "VALUES (%d, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %d, %d, %d, %d)", (
+            self.rpersonnum,  # 명수
+            self.rpersonname[1 - 1].get(),  # 이름1
+            self.rpersonname[1 - 2].get(),  # 이름2
+            self.rpersonname[1 - 3].get(),  # 이름3
+            self.rpersonname[1 - 4].get(),  # 이름4
+            self.rpersonname[1 - 5].get(),  # 이름5
+            self.rpersonname[1 - 6].get(),  # 이름6
+
+            self.rpersonmenu[1 - 1].get(),  # 메뉴1
+            self.rpersonmenu[1 - 2].get(),  # 메뉴2
+            self.rpersonmenu[1 - 3].get(),  # 메뉴3
+            self.rpersonmenu[1 - 4].get(),  # 메뉴4
+            self.rpersonmenu[1 - 5].get(),  # 메뉴5
+            self.rpersonmenu[1 - 6].get(),  # 메뉴6
+
+            self.rper_tolsum[1 - 1].get(),         #개인메뉴 총합 금액
+            self.rper_tolsum[1 - 2].get(),         #개인메뉴 총합 금액
+            self.rper_tolsum[1 - 3].get(),         #개인메뉴 총합 금액
+            self.rper_tolsum[1 - 4].get(),         #개인메뉴 총합 금액
+            self.rper_tolsum[1 - 5].get(),         #개인메뉴 총합 금액
+            self.rper_tolsum[1 - 6].get(),         #개인메뉴 총합 금액
+            self.rinputLocation.get(),  # 장소
+            self.groupmenu,  # 그룹메뉴가격
+            self.ori_price,  # 반올림전총액
+            self.round_price,  # 반올림후총액
+            self.over_price,  # 모자란금액
+            self.under_price  # 남은금액
+        ))
+        sqlCon.commit()
+        sqlCon.Close()
+        tkinter.messagebox.showinfo("Data Entry Form", "Record Entered Successfully")
 
 
 if __name__ == '__main__':

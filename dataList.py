@@ -2,6 +2,9 @@ import tkinter
 import tkinter.font as tkFont
 import tkinter.messagebox
 from tkinter import *
+
+import pymysql
+
 import start
 
 class DataList:
@@ -22,38 +25,32 @@ class DataList:
         self.backButton.place(x=20, y=25)
 
         # 리스트가 들어갈 프레임
-        listFrame = Frame(borderwidth=0, width=20, height=50, relief=RIDGE)
-        listFrame.pack(side=BOTTOM, fill=BOTH)
+        listFrame = Frame(dataList, borderwidth=0, width=18, height=50, relief=RIDGE)
+        listFrame.place(x=52, y=150)
 
         #리스트 스크롤바
         scrollbar = Scrollbar(listFrame)
         scrollbar.grid(row=0, column=0, sticky='ns')
-        datalist = Listbox(listFrame, width=90, height=20,font=('arial', 12, 'bold'), yscrollcommand=scrollbar.set )
+        datalist = Listbox(listFrame, width=86, height=25,font=('arial', 12, 'bold'), yscrollcommand=scrollbar.set)
         datalist.bind('<<ListboxSelect>>')
         datalist.grid(row=0, column=0, padx=7, sticky='nsew')
         scrollbar.config(command=datalist.xview)
 
-        #
-        #
-        #
-        #
-        #
-        #
-        #
-        #
-        #
-        #
-        #
-        #
-        #
-        #
-        #
 
-    #
-    #
-    #
+    def DisplayData(self):
+        sqlCon = pymysql.connect(host="127.0.0.1", user="root", password="goodday0722", database="dutchdb")
+        cur = sqlCon.cursor()
+        cur.execute("select from dutchdb")
+        result = cur.fetchall()
+        for row in result:
+            self.datalist.insert('', END, values = row)
+        sqlCon.commit()
+        sqlCon.Close()
+        tkinter.messagebox.showinfo("Data Entry Form", "Record Entered Successfully")
 
-
-    # start으로 넘어가기
+        # start으로 넘어가기
     def moveToStart(self):
         Move = start.Start(self.dataList)
+
+    DisplayData()
+

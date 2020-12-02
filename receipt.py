@@ -3,7 +3,7 @@ import tkinter.ttk
 import datetime
 import tkinter.font
 import pymysql
-import json
+import tkinter.messagebox
 
 import menu_insert
 import start
@@ -199,51 +199,47 @@ class Receipt:
         Move = menu_insert.Menuinsert(self.receipt, self.rpersonnum)
 
     def save(self):
-        dt = datetime.datetime.now()
+        #dt = datetime.datetime.now()
         #self.filename = dt.strftime('%Y_%m_%d_%H%M%S')
-        rpersonname = json.dumps(self.rpersonname)
-        rinputMenu = json.dumps(self.rinputMenu)
-        rinputLocation = json.dumps(self.rinputLocation)
-        rgroupmenup = json.dumps(self.rgroupmenup)
-        ori_price = json.dumps(self.ori_price)
-        round_price = json.dumps(self.round_price)
-        over_price = json.dumps(self.over_price)
-        under_price = json.dumps(self.under_price)
 
-        sqlCon = pymysql.connect(host="localhost", user="root", password="goodday0722", database="dutch")
+        sqlCon = pymysql.connect(host="127.0.0.1", user="root", password="goodday0722", database="dutchdb")
         cur = sqlCon.cursor()
-        sql = "INSERT INTO department (rpersonnum, rpersonname, rinputMenu, rinputLocation, rgroupmenup, ori_price, round_price, over_price, under_price) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s"
-        cur.execute(sql,
-            self.rpersonnum.get(),  # 명수
-            rpersonname,  # 이름
-            rinputMenu,  # 메뉴이름
-            rinputLocation,  # 장소
-            rgroupmenup,  # 그룹메뉴가격
-            ori_price,  # 반올림전총액
-            round_price,  # 반올림후총액
-            over_price,  # 모자란금액
-            under_price  # 남은금액
-        )
+        cur.execute("INSERT INTO department (rpersonnum, rpersonname1, rpersonname2, rpersonname3, rpersonname4, rpersonname5, rpersonname6" \
+              "rinputMenu1, rinputMenu2, rinputMenu3, rinputMenu4, rinputMenu5, rinputMenu6, " \
+              "rper_tolsum1, rper_tolsum2, rper_tolsum3, rper_tolsum4, rper_tolsum5, rper_tolsum6, " \
+              "rinputLocation, rgroupmenup, ori_price, round_price, over_price, under_price) " \
+              "VALUES (%d, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %d, %d, %d, %d)", (
+            self.rpersonnum,  # 명수
+            self.rpersonname[1 - 1],  # 이름1
+            self.rpersonname[1 - 2],  # 이름2
+            self.rpersonname[1 - 3],  # 이름3
+            self.rpersonname[1 - 4],  # 이름4
+            self.rpersonname[1 - 5],  # 이름5
+            self.rpersonname[1 - 6],  # 이름6
+
+            self.rpersonmenu[1 - 1],  # 메뉴1
+            self.rpersonmenu[1 - 2],  # 메뉴2
+            self.rpersonmenu[1 - 3],  # 메뉴3
+            self.rpersonmenu[1 - 4],  # 메뉴4
+            self.rpersonmenu[1 - 5],  # 메뉴5
+            self.rpersonmenu[1 - 6],  # 메뉴6
+
+            self.rper_tolsum[1 - 1],         #개인메뉴 총합 금액
+            self.rper_tolsum[1 - 2],         #개인메뉴 총합 금액
+            self.rper_tolsum[1 - 3],         #개인메뉴 총합 금액
+            self.rper_tolsum[1 - 4],         #개인메뉴 총합 금액
+            self.rper_tolsum[1 - 5],         #개인메뉴 총합 금액
+            self.rper_tolsum[1 - 6],         #개인메뉴 총합 금액
+            self.rinputLocation,  # 장소
+            self.rgroupmenup,  # 그룹메뉴가격
+            self.ori_price,  # 반올림전총액
+            self.round_price,  # 반올림후총액
+            self.over_price,  # 모자란금액
+            self.under_price  # 남은금액
+        ))
         sqlCon.commit()
         sqlCon.Close()
         tkinter.messagebox.showinfo("Data Entry Form", "Record Entered Successfully")
 
         Move = start.Start(self.receipt)
-
-        # 메뉴,위치,사람명수,[사람1이름,사람1메뉴],[사람2이름,사람2메뉴]...이렇게 사람
-        # 사람1 이름 꺼내고 싶으면 file_r[1][0] 메뉴 꺼내고 싶으면 file_r[1][1]
-        #                 #[메뉴 이름 ,             장소 ,                사람명수]
-        # self.file_r = [[self.rinputMenu, self.rinputLocation, str(self.rpersonnum)],
-        #                # [이름,                       개인메뉴 합,       개인토탈금액(개인메뉴 + 그룹)]
-        #                [self.rpersonname[1 - 1], self.per_sum[1 - 1], self.per_tolsum[1 - 1]],
-        #                [self.rpersonname[2 - 1], self.per_sum[2 - 1], self.per_tolsum[2 - 1]],
-        #                [self.rpersonname[3 - 1], self.per_sum[3 - 1], self.per_tolsum[3 - 1]],
-        #                [self.rpersonname[4 - 1], self.per_sum[4 - 1], self.per_tolsum[4 - 1]],
-        #                [self.rpersonname[5 - 1], self.per_sum[5 - 1], self.per_tolsum[5 - 1]],
-        #                [self.rpersonname[6 - 1], self.per_sum[6 - 1], self.per_tolsum[6 - 1]],
-        #                # 반올림한 1/n한 그룹메뉴(각자 토탈금액에 더해지는 값
-        #                self.rgroupmenup,
-        #                # 반올림전 총액,              반올림후 총액,            모자란금액,             남은 금액
-        #                [str(self.ori_price), str(self.round_price), str(self.over_price), str(self.under_price)]]
-
 

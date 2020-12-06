@@ -3,12 +3,16 @@ import tkinter.ttk
 import tkinter.font
 import tkinter.messagebox
 from tkinter import *
+import datetime
+import random
+
+import pymysql
 
 import receipt
 import numPeople
 
-
 class Menuinsert:
+
     def __init__(self, menu, n):
         self.menu = menu
         self.personnum = n
@@ -137,34 +141,9 @@ class Menuinsert:
 
         # 저장 버튼
         self.saveButton = Button(self.menu, width=30, text='G O !', repeatdelay=20, bg='#ff7878',
-                                 font=fontm, fg="white", command=self.to_receipt)  # command=self.to_receipt,
+                                 font=fontm, fg="white", command=self.save)  # command=self.to_receipt,
         self.saveButton.place(x=300, y=650)
 
-    def to_receipt(self):
-
-        for i in range(0, self.personnum):
-            if not self.personname[0].get():
-                tkinter.messagebox.showinfo("이름 입력", "모든 사람의 이름을 입력해주세요.")
-                break
-            if not self.personmenu[i].get():
-                tkinter.messagebox.showinfo("개인메뉴 가격 입력", "모든 개인메뉴 가격을 입력해주세요."
-                                                          "\n개임메뉴가격이 없는 경우 0을 입력해주세요")
-                break
-            if not self.groupmenu.get():
-                tkinter.messagebox.showinfo("그룹메뉴 가격 입력", "그룹메뉴 가격을 입력해주세요."
-                                                          "\n그룹메뉴가격이 없는 경우 0을 입력해주세요")
-                break
-            else:
-                inputm = [self.inputLocation.get(), self.inputMenu.get(),
-                          [self.personname[1 - 1].get(), self.personmenu[1 - 1].get()],
-                          [self.personname[2 - 1].get(), self.personmenu[2 - 1].get()],
-                          [self.personname[3 - 1].get(), self.personmenu[3 - 1].get()],
-                          [self.personname[4 - 1].get(), self.personmenu[4 - 1].get()],
-                          [self.personname[5 - 1].get(), self.personmenu[5 - 1].get()],
-                          [self.personname[6 - 1].get(), self.personmenu[6 - 1].get()],
-                          self.groupmenu.get(), self.RadioVariety_1.get()]
-                Move = receipt.Receipt(self.menu, inputm, self.personnum)
-                break
 
     def moveTonumPeople(self):
         Move = numPeople.NumPeople(self.menu)
@@ -178,6 +157,64 @@ class Menuinsert:
                                            "\n3.단체메뉴 가격도 '/'로 가격을 나누어서 입력해주세요."
                                            "\n4.입력을 끝냈다면 GO! 버튼을 눌러주세요.")
 
+    def save(self):
+        for i in range(0, self.personnum):
+            if not self.personname[0].get():
+                tkinter.messagebox.showinfo("이름 입력", "모든 사람의 이름을 입력해주세요.")
+                break
+            if not self.personmenu[i].get():
+                tkinter.messagebox.showinfo("개인메뉴 가격 입력", "모든 개인메뉴 가격을 입력해주세요."
+                                                          "\n개임메뉴가격이 없는 경우 0을 입력해주세요")
+                break
+            if not self.groupmenu.get():
+                tkinter.messagebox.showinfo("그룹메뉴 가격 입력", "그룹메뉴 가격을 입력해주세요."
+                                                          "\n그룹메뉴가격이 없는 경우 0을 입력해주세요")
+                break
+            else:
+                self.ID = random.randint(1, 1000)
+                self.now = datetime.datetime.utcnow()
+                sqlCon = pymysql.connect(host="127.0.0.1", user="root", password="goodday0722", database="dutchdb",
+                                         charset="utf8")
+                cur = sqlCon.cursor(pymysql.cursors.DictCursor)
+                cur.execute(
+                    "INSERT INTO dutchdb VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                    (
+                        self.ID,
+                        self.now.strftime('%Y-%m-%d %H:%M:%S'),
+                        self.personnum,  # 명수
+                        self.personname[1 - 1].get(),  # 이름1
+                        self.personname[2 - 1].get(),  # 이름2
+                        self.personname[3 - 1].get(),  # 이름3
+                        self.personname[4 - 1].get(),  # 이름4
+                        self.personname[5 - 1].get(),  # 이름5
+                        self.personname[6 - 1].get(),  # 이름6
+
+                        self.personmenu[1 - 1].get(),  # 메뉴1
+                        self.personmenu[2 - 1].get(),  # 메뉴2
+                        self.personmenu[3 - 1].get(),  # 메뉴3
+                        self.personmenu[4 - 1].get(),  # 메뉴4
+                        self.personmenu[5 - 1].get(),  # 메뉴5
+                        self.personmenu[6 - 1].get(),  # 메뉴6
+
+                        self.groupmenu.get(),
+                        self.inputLocation.get(),  # 장소
+                        self.inputMenu.get(),  # 그룹메뉴가격
+                        self.RadioVariety_1.get()
+                    ))
+                sqlCon.commit()
+                sqlCon.close()
+
+                inputm = [self.inputLocation.get(), self.inputMenu.get(),
+                          [self.personname[1 - 1].get(), self.personmenu[1 - 1].get()],
+                          [self.personname[2 - 1].get(), self.personmenu[2 - 1].get()],
+                          [self.personname[3 - 1].get(), self.personmenu[3 - 1].get()],
+                          [self.personname[4 - 1].get(), self.personmenu[4 - 1].get()],
+                          [self.personname[5 - 1].get(), self.personmenu[5 - 1].get()],
+                          [self.personname[6 - 1].get(), self.personmenu[6 - 1].get()],
+                          self.groupmenu.get(), self.RadioVariety_1.get()]
+
+                Move = receipt.Receipt(self.menu, inputm, self.personnum, self.ID)
+                break
 
 if __name__ == '__main__':
     menu = tkinter.Tk()
